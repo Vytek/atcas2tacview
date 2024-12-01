@@ -11,7 +11,6 @@ import (
 
 	"github.com/shakinm/xlsReader/xls"
 	"github.com/vjeantet/jodaTime"
-
 )
 
 // Version
@@ -46,7 +45,7 @@ func main() {
 
 	workbook, err := xls.OpenFile(filepath.Join("data", argsWithoutProg[0]))
 
-	if err!=nil {
+	if err != nil {
 		log.Panic(err.Error())
 	}
 
@@ -59,7 +58,7 @@ func main() {
 
 	sheet, err := workbook.GetSheet(0)
 
-	if err!=nil {
+	if err != nil {
 		log.Panic(err.Error())
 	}
 
@@ -98,7 +97,6 @@ func main() {
 				// Cell type (records)
 				fmt.Println(cell.GetType())
 			}
-
 		}
 	}
 
