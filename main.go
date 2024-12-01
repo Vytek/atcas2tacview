@@ -89,6 +89,10 @@ func main() {
 
 	var strTimeToWrite string
 	var sumDuration int32
+	var s_LAT float64
+	var s_LONG float64
+	var s_ALTITUDE float64
+	var s_VEL float64
 
 	for i := 0; i <= sheet.GetNumberRows(); i++ {
 		if row, err := sheet.GetRow(i); err == nil {
@@ -104,7 +108,12 @@ func main() {
 				}
 				_, _ = f.WriteString(strTimeToWrite)
 			}
+			//Latitude
+			if cell, err := row.GetCol(8); err == nil {
+				s_LAT := cell.GetFloat64()
+			}
 		}
+		//Write all to acmi file
 	}
 
 	//Write and sync file
