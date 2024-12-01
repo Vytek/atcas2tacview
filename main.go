@@ -55,8 +55,8 @@ func main() {
 	// for i := 0; i <= workbook.GetNumberSheets()-1; i++ {}
 
 	fmt.Println(workbook.GetNumberSheets())
-
-	sheet, err := workbook.GetSheet(0)
+	//For 1136 sheet 4 otherwise 1
+	sheet, err := workbook.GetSheet(4)
 
 	if err != nil {
 		log.Panic(err.Error())
