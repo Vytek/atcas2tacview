@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 
@@ -32,6 +33,10 @@ func feet2meters(feet float64) float64 {
 // https://siongui.github.io/2018/02/25/go-get-file-name-without-extension/
 func FilenameWithoutExtension(fn string) string {
 	return strings.TrimSuffix(fn, path.Ext(fn))
+}
+
+func IntToString(n int) string {
+	return strconv.Itoa(n)
 }
 
 func main() {
@@ -82,20 +87,22 @@ func main() {
 	_, _ = f.WriteString(BOF)
 	_, _ = f.WriteString(GIOF)
 
+	var strTimeToWrite string
+	var sumDuration int32
+
 	for i := 0; i <= sheet.GetNumberRows(); i++ {
 		if row, err := sheet.GetRow(i); err == nil {
-			if cell, err := row.GetCol(1); err == nil {
-
-				// Значение ячейки, тип строка
-				// Cell value, string type
-				fmt.Println(cell.GetString())
-
-				//fmt.Println(cell.GetInt64())
-				//fmt.Println(cell.GetFloat64())
-
-				// Тип ячейки (записи)
-				// Cell type (records)
-				fmt.Println(cell.GetType())
+			//Time UTC/Zulu
+			if cell, err := row.GetCol(0); err == nil {
+				//Time Next
+				dateTimeNow, _ := jodaTime.Parse("HH:mm:ss", cell.GetString()) //Read TIME from CSV
+				if dateTimeNow.After(dateTimeST) {
+					sumDuration = sumDuration + int32(dateTimeNow.Sub(dateTimeST).Seconds()) //TODO: Ricontrollare tutti i tempi!
+					strTimeToWrite = fmt.Sprintf("#%s.%s\n", IntToString(int(sumDuration)), "00")
+					dateTimeST = dateTimeNow
+					//strTimeToWrite = fmt.Sprintf("#%s.%s\n", Float64ToTimeString(dateTimeNow.Sub(dateTimeST).Minutes()), Float64ToTimeString(dateTimeNow.Sub(dateTimeST).Seconds()))
+				}
+				_, _ = f.WriteString(strTimeToWrite)
 			}
 		}
 	}
