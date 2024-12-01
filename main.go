@@ -10,10 +10,15 @@ import (
 	"time"
 
 	"github.com/shakinm/xlsReader/xls"
+	"github.com/vjeantet/jodaTime"
+
 )
 
 // Version
 const Version = "0.0.1"
+
+// Start time
+const ST = "180000"
 
 func DDHHMMZmmmYY() string {
 	current_time := time.Now().UTC()
@@ -34,6 +39,10 @@ func main() {
 
 	//Load Args
 	argsWithoutProg := os.Args[1:]
+
+	//Create data
+	dateTimeST, _ := jodaTime.Parse("HHmmss", ST)
+	fmt.Println(dateTimeST) //DEBUG
 
 	workbook, err := xls.OpenFile(filepath.Join("data", argsWithoutProg[0]))
 
