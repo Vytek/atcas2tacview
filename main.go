@@ -4,13 +4,31 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
+	"strings"
+	"time"
 
 	"github.com/shakinm/xlsReader/xls"
 )
 
 // Version
 const Version = "0.0.1"
+
+func DDHHMMZmmmYY() string {
+	current_time := time.Now().UTC()
+	return fmt.Sprintf(current_time.Format("021504ZJan06"))
+}
+
+// https://ispycode.com/GO/Math/Metric-Conversions/Distance/Feet-to-meters
+func feet2meters(feet float64) float64 {
+	return feet * 0.3048
+}
+
+// https://siongui.github.io/2018/02/25/go-get-file-name-without-extension/
+func FilenameWithoutExtension(fn string) string {
+	return strings.TrimSuffix(fn, path.Ext(fn))
+}
 
 func main() {
 
@@ -44,6 +62,18 @@ func main() {
 	// Print the number of rows in the sheet
 	println(sheet.GetNumberRows())
 
+	//Create and save acmi file (TacView)
+	BOF := "FileType=text/acmi/tacview\nFileVersion=2.2\n"
+	GIOF := "0,Author=Enrico Speranza\n0,Title=ATCAS Radar activity near ITAVIA I-TIGI IH870 A1136\n0,ReferenceTime=1980-06-27T18:00:00Z\n"
+	//Open with name
+	f, err := os.Create("out/nearadaractivity19800627180000Z" + FilenameWithoutExtension(argsWithoutProg[0]) + "v" + DDHHMMZmmmYY() + ".acmi")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	_, _ = f.WriteString(BOF)
+	_, _ = f.WriteString(GIOF)
+
 	for i := 0; i <= sheet.GetNumberRows(); i++ {
 		if row, err := sheet.GetRow(i); err == nil {
 			if cell, err := row.GetCol(1); err == nil {
@@ -62,4 +92,7 @@ func main() {
 
 		}
 	}
+
+	//Write and sync file
+	f.Sync()
 }
