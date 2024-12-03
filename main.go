@@ -117,6 +117,7 @@ func main() {
 				fmt.Println(dateTimeNow)
 				fmt.Println(cell.GetString())
 				fmt.Println(cell.GetFloat64())
+				fmt.Println(cell.GetInt64())
 				if dateTimeNow.After(dateTimeST) {
 					sumDuration = sumDuration + int32(dateTimeNow.Sub(dateTimeST).Seconds()) //TODO: Ricontrollare tutti i tempi!
 					strTimeToWrite = fmt.Sprintf("#%s.%s\n", IntToString(int(sumDuration)), "00")
