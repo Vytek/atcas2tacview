@@ -137,6 +137,9 @@ func main() {
 			}
 		}
 		//Write all to acmi file
+		//fmt.Println(argsWithoutProg[1])
+		//fmt.Println(argsWithoutProg[2])
+		//cdfmt.Println(argsWithoutProg[3])
 		//Coodinates
 		strToWrite := fmt.Sprintf("%s,T=%s|%s|%s,IAS=%s,Name=%s,Squawk=%s,Label=%s\n",
 			argsWithoutProg[1],
