@@ -47,7 +47,7 @@ func Float64ToString(f float64) string {
 	return strconv.FormatFloat(f, 'f', 5, 64)
 }
 
-// Example: CMD 1136-varie.xls "DC9 ITAVIA" A1136 A1136
+// Example: CMD 1136-varie.xls 1002 "DC9 ITAVIA" A1136 A1136
 func main() {
 
 	//Load Args
@@ -103,12 +103,20 @@ func main() {
 	var s_ALTITUDE float64
 	var s_VEL float64
 
-	for i := 0; i <= sheet.GetNumberRows(); i++ {
+	for i := 5; i <= sheet.GetNumberRows(); i++ {
 		if row, err := sheet.GetRow(i); err == nil {
 			//Time UTC/Zulu
 			if cell, err := row.GetCol(0); err == nil {
 				//Time Next
-				dateTimeNow, _ := jodaTime.Parse("HH:mm:ss", cell.GetString()) //Read TIME from CSV
+				fmt.Println(cell.GetType())
+				xfIndex:=cell.GetXFIndex()
+				formatIndex:=workbook.GetXFbyIndex(xfIndex)
+				format:=workbook.GetFormatByIndex(formatIndex.GetFormatIndex())
+				fmt.Println(format.GetFormatString(cell))
+				dateTimeNow, _ := jodaTime.Parse("HH:mm:ss", cell.GetString()) //Read TIME from XSL
+				fmt.Println(dateTimeNow)
+				fmt.Println(cell.GetString())
+				fmt.Println(cell.GetFloat64())
 				if dateTimeNow.After(dateTimeST) {
 					sumDuration = sumDuration + int32(dateTimeNow.Sub(dateTimeST).Seconds()) //TODO: Ricontrollare tutti i tempi!
 					strTimeToWrite = fmt.Sprintf("#%s.%s\n", IntToString(int(sumDuration)), "00")
