@@ -3,6 +3,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/metakeule/fmtdate v1.1.2 h1:n9M7H9HfAqp+6OA98wXGMdcAr6omshSNVct65Bks1lQ=
 github.com/metakeule/fmtdate v1.1.2/go.mod h1:2JyMFlKxeoGy1qS6obQukT0AL0Y4iNANQL8scbSdT4E=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/putridparrot/GoUnits v0.1.0 h1:pH64DBaNcx5NzhphPQGM3thZ7tb+DWf8JYbrY6SzupQ=
+github.com/putridparrot/GoUnits v0.1.0/go.mod h1:qECsunDCQ5aQtrei1FlHg1ezN3qthkAjpy+B+pLw658=
 github.com/shakinm/xlsReader v0.9.12 h1:F6GWYtCzfzQqdIuqZJ0MU3YJ7uwH1ofJtmTKyWmANQk=
 github.com/shakinm/xlsReader v0.9.12/go.mod h1:ME9pqIGf+547L4aE4YTZzwmhsij+5K9dR+k84OO6WSs=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

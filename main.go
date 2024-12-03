@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/putridparrot/GoUnits/speed"
 	"github.com/shakinm/xlsReader/xls"
 	"github.com/vjeantet/jodaTime"
 )
@@ -39,6 +40,14 @@ func IntToString(n int) string {
 	return strconv.Itoa(n)
 }
 
+func Float64ToString(f float64) string {
+	/** converting the f variable into a string */
+	/** 5 is the number of decimals */
+	/** 64 is for float64 type*/
+	return strconv.FormatFloat(f, 'f', 5, 64)
+}
+
+// Example: CMD 1136-varie.xls "DC9 ITAVIA" A1136 A1136
 func main() {
 
 	//Load Args
@@ -110,10 +119,35 @@ func main() {
 			}
 			//Latitude
 			if cell, err := row.GetCol(8); err == nil {
-				s_LAT := cell.GetFloat64()
+				s_LAT = cell.GetFloat64()
+			}
+			//Longitude
+			if cell, err := row.GetCol(9); err == nil {
+				s_LONG = cell.GetFloat64()
+			}
+			//Altitude
+			if cell, err := row.GetCol(10); err == nil {
+				s_ALTITUDE = cell.GetFloat64()
+				s_ALTITUDE = feet2meters(s_ALTITUDE)
+			}
+			//Velocity
+			if cell, err := row.GetCol(10); err == nil {
+				s_VEL = cell.GetFloat64()
+				s_VEL = speed.Knots.ToMetresPerSecond(speed.Knots(s_VEL))
 			}
 		}
 		//Write all to acmi file
+		//Coodinates
+		strToWrite := fmt.Sprintf("%s,T=%s|%s|%s,IAS=%s,Name=%s,Squawk=%s,Label=%s\n",
+			argsWithoutProg[1],
+			Float64ToString(s_LONG),
+			Float64ToString(s_LAT),
+			Float64ToString(s_ALTITUDE),
+			Float64ToString(s_VEL),
+			argsWithoutProg[2],
+			argsWithoutProg[3],
+			argsWithoutProg[4])
+		_, _ = f.WriteString(strToWrite)
 	}
 
 	//Write and sync file
